@@ -1,0 +1,53 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.13">
+  <POU Name="FB_ErrorManager" Id="{6c983e80-6740-4860-b674-7fdc2a53239f}" SpecialFunc="None">
+    <Declaration><![CDATA[FUNCTION_BLOCK FB_ErrorManager
+VAR
+	ErrorList : ARRAY[0..20] OF ST_Error;
+	index : INT;
+END_VAR
+]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[]]></ST>
+    </Implementation>
+    <Method Name="ClearError" Id="{a0d1a433-cdb8-45e9-ad91-9cac1ac35ab4}">
+      <Declaration><![CDATA[METHOD ClearError : BOOL
+VAR_INPUT
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[index := 0;
+MEMSET(ADR(ErrorList), 0, SIZEOF(ErrorList));]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="RaiseError" Id="{3a15478b-ae88-4719-bba7-70e61db18687}">
+      <Declaration><![CDATA[METHOD RaiseError : BOOL
+VAR_INPUT
+	ErrorCode : UINT;
+	ErrorMsg : STRING;
+END_VAR
+VAR
+	i : INT;
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[IF index < 0 OR index >= 20 THEN
+	RaiseError := FALSE;
+	RETURN;
+END_IF
+
+FOR i := 0 TO 20 BY 1 DO
+	IF ErrorList[i].ErrorCode = ErrorCode THEN
+		RaiseError := FALSE;
+		RETURN;
+	END_IF
+END_FOR
+
+ErrorList[index].ErrorCode := ErrorCode;
+ErrorList[index].ErrorMessage := ErrorMsg;
+index := index + 1;
+RaiseError := TRUE;]]></ST>
+      </Implementation>
+    </Method>
+  </POU>
+</TcPlcObject>

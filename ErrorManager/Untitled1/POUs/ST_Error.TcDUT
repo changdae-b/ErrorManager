@@ -1,0 +1,12 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.13">
+  <DUT Name="ST_Error" Id="{c5313692-9c2f-40df-8046-b18ffb1ab1fb}">
+    <Declaration><![CDATA[TYPE ST_Error :
+STRUCT
+	ErrorMessage : STRING;
+	ErrorCode : UINT;
+END_STRUCT
+END_TYPE
+]]></Declaration>
+  </DUT>
+</TcPlcObject>

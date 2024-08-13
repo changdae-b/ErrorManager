@@ -1,0 +1,26 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.13">
+  <POU Name="MAIN" Id="{55f79488-b6c2-4797-839d-7f29cea7a710}" SpecialFunc="None">
+    <Declaration><![CDATA[PROGRAM MAIN
+VAR
+	fbErrorManager : FB_ErrorManager;
+	bClear: BOOL;
+	bError: BOOL;
+	ErrorCode: UINT;
+	ErrorMsg: STRING;
+END_VAR
+]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[IF bClear THEN
+	fbErrorManager.ClearError();
+	bClear := FALSE;
+END_IF
+
+IF bError THEN
+	bError := FALSE;
+	fbErrorManager.RaiseError(ErrorCode, ErrorMsg);
+END_IF
+]]></ST>
+    </Implementation>
+  </POU>
+</TcPlcObject>
